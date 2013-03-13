@@ -14,19 +14,22 @@ switch(command) {
 		generateReport();
 		break;
 	default : 
-		console.log("This is the handin automation software HandIn");
-		console.log("Possible commands are : ");
-		console.log("create - create directorys and initialise git repos in each one for students to submit to");
-		console.log("report - run tests on student code and generate a report");
+		console.log("INFO : This is the handin automation software HandIn");
+		console.log("INFO : Possible commands are : ");
+		console.log("INFO : create - create directorys and initialise git repos in each one for students to submit to");
+		console.log("INFO : report - run tests on student code and generate a report");
 }
 
+
+//create repos for all students in students.json
+//adding a readme with task to be completed
 function create() {
-	//create repos for all students in students.json
-	//adding a readme with task to be completed
 	Object.keys(students).forEach(function (key) {
-		var err = genDir(key);
+		var err = genDir(students[key].login);
 		if(err) {
-			console.log("Error during creation of directory for : " + key + "\n");
+			console.log("ERR : Error during creation of directory for : " + students[key].login);
+		} else {
+			console.log("INFO : Directory created for : " + students[key].login);
 		}
 	});
 }
