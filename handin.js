@@ -39,16 +39,27 @@ function genDir(login){
 	return 0;
 }
 
+
+// generate a report for all the submitted code
+// create new report file
+// append the following to the report
+// for each user test()
 function generateReport() {
-	// generate a report for all the submitted code
-	// create new report file
-	// append the following to the report
-	// for each user test()
+	Object.keys(students).forEach(function (key) {
+		var err = test(students[key].login);
+		if(err) {
+			console.log("ERR : Error generating report for : " + students[key].login);
+		} else {
+			console.log("INFO : Report added for : " + students[key].login);
+		}
+	});
 }
 
-function test() {
-	// grab main.* from each repo
-	// run test framework with each students code
-	// generate a report for each student
-	// identify any users that haven't submitted and include at top of report
+// grab main.* from each repo
+// run test framework with each students code
+// generate a report for each student
+// identify any users that haven't submitted and include at top of report
+function test(login) {
+	return 0;
 }
+
