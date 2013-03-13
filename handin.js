@@ -23,6 +23,17 @@ switch(command) {
 function create() {
 	//create repos for all students in students.json
 	//adding a readme with task to be completed
+	Object.keys(students).forEach(function (key) {
+		var err = genDir(key);
+		if(err) {
+			console.log("Error during creation of directory for : " + key + "\n");
+		}
+	});
+}
+
+function genDir(login){
+	// spawn exec function to make sure dir is created
+	return 0;
 }
 
 function generateReport() {
