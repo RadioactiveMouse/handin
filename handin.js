@@ -21,7 +21,8 @@ switch(command) {
 }
 
 function create() {
-
+	//create repos for all students in students.json
+	//adding a readme with task to be completed
 }
 
 function generateReport() {
