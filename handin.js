@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var students = require('students.json');
+var students = require('./students.json');
 
 // handle a variety of different args dependent on second command
 
