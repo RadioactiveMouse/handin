@@ -13,6 +13,11 @@ switch(command) {
 	case "report" :
 		generateReport();
 		break;
+	default : 
+		console.log("This is the handin automation software HandIn");
+		console.log("Possible commands are : ");
+		console.log("create - create directorys and initialise git repos in each one for students to submit to");
+		console.log("report - run tests on student code and generate a report");
 }
 
 function create() {
