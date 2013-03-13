@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var students = require('./students.json');
-
+var spawn = require("child_process").spawn;
 // handle a variety of different args dependent on second command
 
 var command = String(process.argv[2]);
@@ -36,6 +36,11 @@ function create() {
 
 function genDir(login){
 	// spawn exec function to make sure dir is created
+	var args = ["-p", login];
+	var err = spawn("mkdir",args);
+	if(err){
+		return 1;
+	}
 	return 0;
 }
 
