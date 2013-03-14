@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 var students = require('./students.json');
-var spawn = require("child_process").spawn;
-// handle a variety of different args dependent on second command
-
+var spawn = require("child_process");
+var exec = spawn.exec;
+var fs = require("fs");
 var command = String(process.argv[2]);
 
 switch(command) {
@@ -36,11 +36,19 @@ function create() {
 
 function genDir(login){
 	// spawn exec function to make sure dir is created
-	var args = ["-p", login];
-	var err = spawn("mkdir",args);
-	if(err){
-		return 1;
+	if(!fs.existsSync(login)){
+		fs.mkdirSync(login);
 	}
+	// init a git repo in each of the login directories
+	/*
+	exec("git init",function(err,stdout,stderr){
+		if(err) {
+			console.log("ERR : Error during git repo init : " + err);
+			throw err;
+		}
+		console.log("INFO : Git repo created for " + login);
+	});
+	*/
 	return 0;
 }
 
