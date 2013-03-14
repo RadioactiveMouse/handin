@@ -1,5 +1,12 @@
 #!/usr/bin/env node
 
+/*
+	Hand In
+	Authors : Tom Townsend @tomtowny, Laura McCormack @footpopper
+	License : MIT
+
+*/
+
 var students = require('./students.json');
 var spawn = require("child_process");
 var exec = spawn.exec;
