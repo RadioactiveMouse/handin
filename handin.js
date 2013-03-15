@@ -11,7 +11,10 @@ var students = require('./students.json');
 var spawn = require("child_process");
 var exec = spawn.exec;
 var fs = require("fs");
+var path = require("path");
 var command = String(process.argv[2]);
+var project = "project";
+var fullpath = "";
 
 switch(command) {
 	case "create" :
@@ -23,7 +26,7 @@ switch(command) {
 	default : 
 		console.log("INFO : This is the handin automation software HandIn");
 		console.log("INFO : Possible commands are : ");
-		console.log("INFO : create - create directorys and initialise git repos in each one for students to submit to");
+		console.log("INFO : create - create directories and initialise git repos in each one for students to submit to");
 		console.log("INFO : report - run tests on student code and generate a report");
 }
 
@@ -31,6 +34,12 @@ switch(command) {
 //create repos for all students in students.json
 //adding a readme with task to be completed
 function create() {
+	// make the overarching dir for ease of copying data around
+	if(!fs.existsSync(project)){
+		fs.mkdirSync(project);
+		fullpath = project + "/";
+		console.log("INFO Project folder created");
+	}
 	Object.keys(students).forEach(function (key) {
 		var err = genDir(students[key].login);
 		if(err) {
@@ -42,10 +51,12 @@ function create() {
 }
 
 function genDir(login){
-	// spawn exec function to make sure dir is created
-	if(!fs.existsSync(login)){
-		fs.mkdirSync(login);
+	// define the path to put the student directories
+	if(!fs.existsSync(fullpath+login)){
+		fs.mkdirSync(fullpath+login);
 	}
+	// pipe the readme containing the instructions into the student directories
+	
 	// init a git repo in each of the login directories
 	/*
 	exec("git init",function(err,stdout,stderr){
