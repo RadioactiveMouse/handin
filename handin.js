@@ -35,6 +35,10 @@ switch(command) {
 //adding a readme with task to be completed
 function create() {
 	// make the overarching dir for ease of copying data around
+	if(!fs.existsSync("instructions.md")){
+		console.log("No instructions.md file. Exiting without finishing...");
+		return 1;
+	}
 	if(!fs.existsSync(project)){
 		fs.mkdirSync(project);
 		fullpath = project + "/";
@@ -52,11 +56,12 @@ function create() {
 
 function genDir(login){
 	// define the path to put the student directories
-	if(!fs.existsSync(fullpath+login)){
-		fs.mkdirSync(fullpath+login);
+	var localpath = fullpath+login;
+	if(!fs.existsSync(localpath)){
+		fs.mkdirSync(localpath);
 	}
 	// pipe the readme containing the instructions into the student directories
-	
+	fs.createReadStream("instructions.md").pipe(fs.createWriteStream(localpath+"/instructions.md"));
 	// init a git repo in each of the login directories
 	/*
 	exec("git init",function(err,stdout,stderr){
