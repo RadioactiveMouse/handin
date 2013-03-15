@@ -80,8 +80,30 @@ function genDir(login){
 // create new report file
 // append the following to the report
 // for each user test()
-function generateReport() {
-	Object.keys(students).forEach(function (key) {
+function generateReport(){
+	//create reports folder (if it doesn't already exist)
+	if(!fs.existsSync("reports")){
+		fs.mkdirSync("reports");
+	}
+	
+	//create a file called by timestamp
+	var date = new Date();
+	var filename = date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear()+"--"+date.getHours()+"h"+date.getMinutes()+"m.tex";
+	
+	writeReport("reports/"+filename);
+}
+
+function writeReport(filename){
+
+	fs.appendFileSync(filename,"\\documentclass{article}");
+	fs.appendFileSync(filename,"\\title{Student Coursework Reports}\n");
+	fs.appendFileSync(filename,"\\begin{document}\n");
+	fs.appendFileSync(filename,"\\maketitle\n");
+
+	//loop through each user test
+	//write to file
+	Object.keys(students).forEach(function (key){
+		fs.appendFileSync(filename,"\\section*{"+students[key].fullname+"}\n");
 		var err = test(students[key].login);
 		if(err) {
 			console.log("ERR : Error generating report for : " + students[key].login);
@@ -89,6 +111,7 @@ function generateReport() {
 			console.log("INFO : Report added for : " + students[key].login);
 		}
 	});
+
 }
 
 // grab main.* from each repo
