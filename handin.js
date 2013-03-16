@@ -36,13 +36,13 @@ switch(command) {
 function create() {
 	// make the overarching dir for ease of copying data around
 	if(!fs.existsSync("instructions.md")){
-		console.log("No instructions.md file. Exiting without finishing...");
+		console.log("ERR : No instructions.md file. Exiting without finishing...");
 		return 1;
 	}
 	if(!fs.existsSync(project)){
 		fs.mkdirSync(project);
 		fullpath = project + "/";
-		console.log("INFO Project folder created");
+		console.log("INFO : Project folder created");
 	}
 	Object.keys(students).forEach(function (key) {
 		var err = genDir(students[key].login);
