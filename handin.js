@@ -16,6 +16,8 @@ var command = String(process.argv[2]);
 var project = "project";
 var fullpath = "";
 var reportfile = "";
+var reportcontent = "";
+var extension = "rb";
 
 switch(command) {
 	case "create" :
@@ -109,16 +111,16 @@ function generateReport(){
 }
 
 function writeReport(){
-
 	fs.appendFileSync(reportfile,"\\documentclass{article}");
 	fs.appendFileSync(reportfile,"\\title{Student Coursework Reports}\n");
 	fs.appendFileSync(reportfile,"\\begin{document}\n");
 	fs.appendFileSync(reportfile,"\\maketitle\n");
-
+	//reportcontent = "\\documentclass{article}\n\\title{Student Coursework Reports}\n\\begin{document}\n\\maketitle\n"
 	//loop through each user test
 	//write to file
 	Object.keys(students).forEach(function (key){
-		fs.appendFileSync(reportfile,"\\section*{"+students[key].fullname+"}\n");
+		fs.appendFileSync(reportfile,"\\section*{"+students[key].fullname+"("+students[key].login+")}\n");
+		//reportcontent = reportcontent+"\\section*{"+students[key].fullname+"("+students[key].login+")}\n";
 		var err = test(students[key].login);
 		if(err) {
 			console.log("ERR : Error generating report for : " + students[key].login);
@@ -126,9 +128,9 @@ function writeReport(){
 			console.log("INFO : Report added for : " + students[key].login);
 		}
 	});
-
+	//reportcontent= reportcontent+"\\end{document}\n";
+	console.log("INFO : appending result to report file");
 	fs.appendFileSync(reportfile,"\\end{document}\n");
-
 }
 
 // grab main.* from each repo
@@ -138,12 +140,13 @@ function writeReport(){
 // can check the current tags using `git tag -l`
 function test(login) {
 	var path = project+"/"+login;
-	if(!fs.existsSync(path+"/main.*")){
-		fs.appendFileSync(reportfile, "FAIL - file does not exist\n");
+	console.log("path : " + path);
+	var filename = "";
+	if(!fs.existsSync(path+"/main."+extension)){
+		fs.appendFileSync(reportfile, "FAIL : main file does not exist");
 		return 0;
 	}
-	fs.appendFileSync(reportfile, "PASS - file exists\n");
-	return 0;
+	fs.appendFileSync(reportfile, "PASS : main file exists");
 }
 
 //create the PDF version from the latex file
