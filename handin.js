@@ -39,6 +39,10 @@ function create() {
 		console.log("ERR : No instructions.md file. Exiting without finishing...");
 		return 1;
 	}
+	if(!fs.existsSync("tests")){
+		console.log("ERR : No tests file. Exiting without finishing... ");
+		return 1;
+	}
 	if(!fs.existsSync(project)){
 		fs.mkdirSync(project);
 		fullpath = project + "/";
@@ -69,6 +73,13 @@ function genDir(login){
 			return 1;
 		} else {
 			console.log("INFO : Git repo created for " + login);
+		}
+	});
+	exec("cp -r tests "+ localpath + "/tests", function(err,stdout,stderr){
+		if(err){
+			console.log("ERR : Unable to create test directory err " + err);
+		} else {
+			console.log("INFO : Test directory created for : " + login);
 		}
 	});
 	return 0;
