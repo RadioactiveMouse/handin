@@ -128,6 +128,7 @@ function writeReport(filename){
 // run test framework with each students code
 // generate a report for each student
 // identify any users that haven't submitted and include at top of report
+// can check the current tags using `git tag -l`
 function test(login) {
 	return 0;
 }
