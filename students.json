@@ -1,4 +1,4 @@
 [
-	{ "login" : "tt", "github" : "RadioactiveMouse"},
-	{"login" : "lm", "github" : "LauraMcCormack"}
+	{ "login" : "tt", "fullname" : "Tom Townsend"},
+	{"login" : "lm", "fullname" : "Laura McCormack"}
 ]
