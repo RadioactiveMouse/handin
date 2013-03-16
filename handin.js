@@ -63,15 +63,13 @@ function genDir(login){
 	// pipe the readme containing the instructions into the student directories
 	fs.createReadStream("instructions.md").pipe(fs.createWriteStream(localpath+"/instructions.md"));
 	// init a git repo in each of the login directories
-	/*
-	exec("git init",function(err,stdout,stderr){
+	exec("cd "+localpath+" && git init",function(err,stdout,stderr){
 		if(err) {
 			console.log("ERR : Error during git repo init : " + err);
 			throw err;
 		}
 		console.log("INFO : Git repo created for " + login);
 	});
-	*/
 	return 0;
 }
 
