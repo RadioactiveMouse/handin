@@ -3,6 +3,7 @@ project:
 
 report:
 	node handin.js report
+	rm reports/*.aux reports/*.log
 
 clean:
 	rm -rf reports project

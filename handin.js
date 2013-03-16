@@ -15,6 +15,7 @@ var path = require("path");
 var command = String(process.argv[2]);
 var project = "project";
 var fullpath = "";
+var reportfile = "";
 
 switch(command) {
 	case "create" :
@@ -98,22 +99,26 @@ function generateReport(){
 	
 	//create a file called by timestamp
 	var date = new Date();
-	var filename = date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear()+"--"+date.getHours()+"h"+date.getMinutes()+"m.tex";
+	reportfile = "reports/"+date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear()+"--"+date.getHours()+"h"+date.getMinutes()+"m.tex";
 	
-	writeReport("reports/"+filename);
+	writeReport();
+	var err = createPDF();
+	if(err){
+		console.log("ERR : Error during creation of PDF report");
+	}
 }
 
-function writeReport(filename){
+function writeReport(){
 
-	fs.appendFileSync(filename,"\\documentclass{article}");
-	fs.appendFileSync(filename,"\\title{Student Coursework Reports}\n");
-	fs.appendFileSync(filename,"\\begin{document}\n");
-	fs.appendFileSync(filename,"\\maketitle\n");
+	fs.appendFileSync(reportfile,"\\documentclass{article}");
+	fs.appendFileSync(reportfile,"\\title{Student Coursework Reports}\n");
+	fs.appendFileSync(reportfile,"\\begin{document}\n");
+	fs.appendFileSync(reportfile,"\\maketitle\n");
 
 	//loop through each user test
 	//write to file
 	Object.keys(students).forEach(function (key){
-		fs.appendFileSync(filename,"\\section*{"+students[key].fullname+"}\n");
+		fs.appendFileSync(reportfile,"\\section*{"+students[key].fullname+"}\n");
 		var err = test(students[key].login);
 		if(err) {
 			console.log("ERR : Error generating report for : " + students[key].login);
@@ -121,6 +126,8 @@ function writeReport(filename){
 			console.log("INFO : Report added for : " + students[key].login);
 		}
 	});
+
+	fs.appendFileSync(reportfile,"\\end{document}\n");
 
 }
 
@@ -130,6 +137,22 @@ function writeReport(filename){
 // identify any users that haven't submitted and include at top of report
 // can check the current tags using `git tag -l`
 function test(login) {
+	var path = project+"/"+login;
+	if(!fs.existsSync(path+"/main.*")){
+		fs.appendFileSync(reportfile, "FAIL - file does not exist\n");
+		return 0;
+	}
+	fs.appendFileSync(reportfile, "PASS - file exists\n");
 	return 0;
 }
 
+//create the PDF version from the latex file
+function createPDF(){
+	exec("cd reports && pdflatex -interaction=nonstopmode -halt-on-error ../"+reportfile,function(err,stdout,stderr){
+		if(err){
+			return 1;
+		}else{
+			return 0;
+		}
+	});
+}
