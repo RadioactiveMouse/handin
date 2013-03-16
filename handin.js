@@ -66,9 +66,10 @@ function genDir(login){
 	exec("cd "+localpath+" && git init",function(err,stdout,stderr){
 		if(err) {
 			console.log("ERR : Error during git repo init : " + err);
-			throw err;
+			return 1;
+		} else {
+			console.log("INFO : Git repo created for " + login);
 		}
-		console.log("INFO : Git repo created for " + login);
 	});
 	return 0;
 }
