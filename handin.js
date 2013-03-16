@@ -26,7 +26,7 @@ switch(command) {
 	case "report" :
 		generateReport();
 		break;
-	default : 
+	default :
 		console.log("INFO : This is the handin automation software HandIn");
 		console.log("INFO : Possible commands are : ");
 		console.log("INFO : create - create directories and initialise git repos in each one for students to submit to");
@@ -88,6 +88,15 @@ function genDir(login){
 	return 0;
 }
 
+// get the extension of the file that we are expecting the students to submit
+function getExtension(){
+	var files = fs.readdirSync("tests");
+	// check for main in the files list
+	// could get more fancy like finding the most frequent extension
+	var first = files[0].split(".");
+	var ext = first[1];
+	return ext;
+}
 
 // generate a report for all the submitted code
 // create new report file
